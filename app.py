@@ -5,8 +5,16 @@ from tkinter import ttk
 WIDTH = 900  # Ancho
 HEIGHT = 600 # Alto
 
-
-color = 0
+def ejecutar_funcion(event):
+    seleccion = combobx.get()
+    if seleccion == "Abrir":
+        print("Abriendo venta para elegir archivo")
+    elif seleccion == "Guardar":
+        print("Aguardando archivo")
+    elif seleccion == "Guardar como":
+        print("guardando archivo como")
+    elif seleccion == "Salir":
+        print("Saliendo del programa")
 
 root = tk.Tk()
 root.title("Analizador lexico - Editor de texto")
@@ -32,9 +40,13 @@ style.configure("TCombobox", fieldbackground= "#3E447D", background= "#3E447D", 
 combobx = ttk.Combobox(root)
 combobx.place(x=100, y=100)
 combobx["values"] = ["ARCHIVO", "Abrir", "Guardar", "Guardar como", "Salir"] # Valores del combobox
-combobx.current(0) # Valor por defecto del combobox
+combobx.current(0) # Valor por defecto del combobo
 combobx.configure(foreground='#E0E0E0')
 combobx.place(x=10, y=7, width=100, height=23)
+
+combobx.bind("<<ComboboxSelected>>", ejecutar_funcion)
+
+
 
 button = tk.Button(root, text="Analizador", bg="#333766", fg="white", borderwidth=0.5)
 button.place(x=140, y=7, width=100, height=23)
