@@ -5,6 +5,7 @@ from tkinter import ttk
 WIDTH = 900  # Ancho
 HEIGHT = 600 # Alto
 
+# Funcion que se ejecuta al seleccionar una opcion del combobox
 def ejecutar_funcion(event):
     seleccion = combobx.get()
     if seleccion == "Abrir":
@@ -16,6 +17,7 @@ def ejecutar_funcion(event):
     elif seleccion == "Salir":
         print("Saliendo del programa")
 
+# Creacion de la ventana
 root = tk.Tk()
 root.title("Analizador lexico - Editor de texto")
 root.resizable(False, False)
@@ -44,22 +46,24 @@ combobx.current(0) # Valor por defecto del combobo
 combobx.configure(foreground='#E0E0E0')
 combobx.place(x=10, y=7, width=100, height=23)
 
+# Evento que se ejecuta al seleccionar una opcion del combobox
 combobx.bind("<<ComboboxSelected>>", ejecutar_funcion)
 
-
-
+# Creacion de los botones
 button = tk.Button(root, text="Analizador", bg="#333766", fg="white", borderwidth=0.5)
-button.place(x=140, y=7, width=100, height=23)
-
 button2 = tk.Button(root, text="Errores", bg= "#333766", fg="white", borderwidth=0.5)
-button2.place(x=270, y=7, width=100, height=23, )
-
 button3 = tk.Button(root, text="Reporte", bg="#333766", fg="white", borderwidth=0.5)
+
+# Posicion de los botones
+button.place(x=140, y=7, width=100, height=23)
+button2.place(x=270, y=7, width=100, height=23, )
 button3.place(x=400, y=7, width=100, height=23)
 
+# Creacion del tetxbox
 entry = tk.Text(root, bg="#343541", fg="white")
 entry.place(x=15, y=60, width=869, height=524)
 
+# Creacion de una etiqueda de advertencia
 etiqueta = tk.Label(root, text="Esta ventana no se puede maximizar ni redimensionar.", bg="#444654", fg="white")
 etiqueta.pack(padx=20, pady=37)
 
