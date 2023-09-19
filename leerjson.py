@@ -3,7 +3,6 @@ from tkinter import messagebox
 import json
 
 CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ''""\",[]{}.1234567890 :"
-lista = []
 
 
 
@@ -11,6 +10,7 @@ class objeto:
     def __init__(self):
         self.path = None
         self.contenido = None
+        self.contenidoErrores = None
         self.listaErrores = None
         self.pathSalida = None
     
@@ -43,6 +43,7 @@ class objeto:
 
 
     def getErrores(self):
+        lista = []
         contador = 1
         lineas = self.contenido.splitlines()
         for numero, linea in enumerate(lineas, start=1):
@@ -62,8 +63,32 @@ class objeto:
         self.listaErrores = {"Errores": lista}
 
     def imprimirErrores(self):
-            nombre_archivo = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("Archivos JSON", "*.json")])
-            if nombre_archivo:
-                self.pathSalida = nombre_archivo
-                with open(self.pathSalida, "w") as salida:
-                    json.dump(self.listaErrores, salida, indent=4)
+        nombre_archivo = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("Archivos JSON", "*.json")])
+        if nombre_archivo:
+            self.pathSalida = nombre_archivo
+            with open(self.pathSalida, "w") as salida:
+                json.dump(self.listaErrores, salida, indent=4)
+        try:
+            with open(self.pathSalida, 'r') as archivo_js:
+                self.contenidoErrores = archivo_js.read()
+        except:
+            print("ocurrio un error al crear contenidoErrores en el objeto.")
+
+    def guardar(self, texto):
+        datos = json.loads(texto)
+        try:
+            with open(self.path, "w") as salida:
+                    json.dump(datos, salida, indent=4)
+            messagebox.showinfo("Guardado correcto", "El archivo se guardo correctamente")
+        except:
+            print("se produjo un error al guardar el archivo")
+
+    def guardarComo(self, texto):
+        datos = json.loads(texto)
+        nombre_archivo = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("Archivos JSON", "*.json")])
+        try:
+            with open(nombre_archivo, "w") as salida:
+                    json.dump(datos, salida, indent=4)
+            messagebox.showinfo("Guardado correcto", f"El archivo llamado {nombre_archivo} se guardo correctamente")
+        except:
+            print("se produjo un error al guardar el archivo")

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from leerjson import objeto
+
 # Constantes que definen el ancho y el alto de la ventana
 WIDTH = 900  # Ancho
 HEIGHT = 600 # Alto
@@ -17,9 +18,10 @@ def ejecutar_funcion(event):
         entry.insert(tk.END, obj.contenido)
 
     elif seleccion == "Guardar":
-        print("Aguardando archivo")
+        obj.guardar(entry.get("1.0", "end-1c"))
+
     elif seleccion == "Guardar como":
-        print("guardando archivo como")
+        obj.guardarComo(entry.get("1.0", "end-1c"))
     elif seleccion == "Salir":
         root.destroy()
 
@@ -30,6 +32,8 @@ def errores():
     if obj:
         obj.getErrores()
         obj.imprimirErrores()
+        entry.delete(1.0, tk.END)
+        entry.insert(tk.END, obj.contenidoErrores)
     else:
         print("Aun no se ha creado el objeto.")
 
