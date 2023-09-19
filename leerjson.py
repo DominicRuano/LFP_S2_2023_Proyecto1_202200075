@@ -4,8 +4,6 @@ import json
 
 CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ''""\",[]{}.1234567890 :"
 
-
-
 class objeto:
     def __init__(self):
         self.path = None
@@ -13,19 +11,16 @@ class objeto:
         self.contenidoErrores = None
         self.listaErrores = None
         self.pathSalida = None
-    
+
     def getPath(self):
-        while True:
-            try:
-                path = filedialog.askopenfile(title="Seleccione el archivo",filetypes=(("JSON files", ".json"),("all files", ".*")))
-                if messagebox.askquestion("Archivo", f"¿Está seguro que {path.name} es el archivo correcto?") == "yes":
-                    self.path = path.name
-                    break
-                else:
-                    continue
-            except:
-                print("Error al abrir el archivo")
-                messagebox.showerror("Error", "Error al abrir el archivo o se cerro la ventana, intentelo de nuevo")
+        try:
+            path = filedialog.askopenfile(title="Seleccione el archivo",filetypes=(("JSON files", ".json"),("all files", ".*")))
+            if messagebox.askquestion("Archivo", f"¿Está seguro que {path.name} es el archivo correcto?") == "yes":
+                self.path = path.name
+                self.getContenido()
+        except:
+            print("Error al abrir el archivo")
+            messagebox.showerror("Error", "Error al abrir el archivo o se cerro la ventana, intentelo de nuevo")
 
     def getContenido(self):
         try:
@@ -41,26 +36,29 @@ class objeto:
             print(f"Se produjo un error inesperado: {str(e)}")
             messagebox.showerror("Error", "Se produjo un error inesperado.")
 
-
     def getErrores(self):
         lista = []
         contador = 1
-        lineas = self.contenido.splitlines()
-        for numero, linea in enumerate(lineas, start=1):
-            for caracter in linea:
-                if caracter not in CARACTERES:
-                    #print(f"Error sintactico en la linea {numero} y columna {linea.index(caracter) + 1} el caracter es {caracter}")
-                    lista.append({
-                        "NO": contador,
-                        "Descripcion": {
-                            "Lexema": f"{caracter}",
-                            "Tipo": "error lexico",
-                            "Columna": linea.index(caracter) + 1,
-                            "Fila": numero
-                        }
-                    })
-                    contador += 1
-        self.listaErrores = {"Errores": lista}
+        try:
+            lineas = self.contenido.splitlines()
+            for numero, linea in enumerate(lineas, start=1):
+                for caracter in linea:
+                    if caracter not in CARACTERES:
+                        #print(f"Error sintactico en la linea {numero} y columna {linea.index(caracter) + 1} el caracter es {caracter}")
+                        lista.append({
+                            "NO": contador,
+                            "Descripcion": {
+                                "Lexema": f"{caracter}",
+                                "Tipo": "error lexico",
+                                "Columna": linea.index(caracter) + 1,
+                                "Fila": numero
+                            }
+                        })
+                        contador += 1
+            self.listaErrores = {"Errores": lista}
+            self.imprimirErrores()
+        except AttributeError as e:
+            messagebox.showinfo("Sin traibutos", "El archivo aun no se ha cargado.")
 
     def imprimirErrores(self):
         nombre_archivo = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("Archivos JSON", "*.json")])

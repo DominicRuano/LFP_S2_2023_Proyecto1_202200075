@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from leerjson import objeto
 
 # Constantes que definen el ancho y el alto de la ventana
@@ -7,21 +8,29 @@ WIDTH = 900  # Ancho
 HEIGHT = 600 # Alto
 
 obj = objeto()
+archivoCargado = [False]
 
 # Funcion que se ejecuta al seleccionar una opcion del combobox
 def ejecutar_funcion(event):
     seleccion = combobx.get()
     if seleccion == "Abrir":
         obj.getPath()
-        obj.getContenido()
         entry.delete(1.0, tk.END)
         entry.insert(tk.END, obj.contenido)
-
+        archivoCargado[0] = True
     elif seleccion == "Guardar":
-        obj.guardar(entry.get("1.0", "end-1c"))
+        if entry.get("1.0", "end-1c") and archivoCargado[0]:
+            if obj.getPath:
+                obj.guardar(entry.get("1.0", "end-1c"))
+        else:
+            messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargado un archivo, no se puede guardar.")
 
     elif seleccion == "Guardar como":
-        obj.guardarComo(entry.get("1.0", "end-1c"))
+        if entry.get("1.0", "end-1c") and archivoCargado[0]:
+            obj.guardarComo(entry.get("1.0", "end-1c"))
+        else:
+            messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargado un archivo, no se puede guardar.")
+
     elif seleccion == "Salir":
         root.destroy()
 
@@ -29,13 +38,15 @@ def analizar():
     print("Analizando")
 
 def errores():
-    if obj:
-        obj.getErrores()
-        obj.imprimirErrores()
-        entry.delete(1.0, tk.END)
-        entry.insert(tk.END, obj.contenidoErrores)
+    if entry.get("1.0", "end-1c") and archivoCargado:
+        try:
+            obj.getErrores()
+            entry.delete(1.0, tk.END)
+            entry.insert(tk.END, obj.contenidoErrores)
+        except:
+            print("Error en boton errores")
     else:
-        print("Aun no se ha creado el objeto.")
+        messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargo un archivo, no se puede generar archivo de errores.")
 
 def reporte():
     print("Mostrando reporte")
