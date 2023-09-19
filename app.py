@@ -1,21 +1,40 @@
 import tkinter as tk
 from tkinter import ttk
-
+from leerjson import objeto
 # Constantes que definen el ancho y el alto de la ventana
 WIDTH = 900  # Ancho
 HEIGHT = 600 # Alto
+
+obj = objeto()
 
 # Funcion que se ejecuta al seleccionar una opcion del combobox
 def ejecutar_funcion(event):
     seleccion = combobx.get()
     if seleccion == "Abrir":
-        print("Abriendo venta para elegir archivo")
+        obj.getPath()
+        obj.getContenido()
+        entry.delete(1.0, tk.END)
+        entry.insert(tk.END, obj.contenido)
+
     elif seleccion == "Guardar":
         print("Aguardando archivo")
     elif seleccion == "Guardar como":
         print("guardando archivo como")
     elif seleccion == "Salir":
-        print("Saliendo del programa")
+        root.destroy()
+
+def analizar():
+    print("Analizando")
+
+def errores():
+    if obj:
+        obj.getErrores()
+        obj.imprimirErrores()
+    else:
+        print("Aun no se ha creado el objeto.")
+
+def reporte():
+    print("Mostrando reporte")
 
 # Creacion de la ventana
 root = tk.Tk()
@@ -41,7 +60,7 @@ style.configure("TCombobox", fieldbackground= "#3E447D", background= "#3E447D", 
 # Creacion del combobox
 combobx = ttk.Combobox(root)
 combobx.place(x=100, y=100)
-combobx["values"] = ["ARCHIVO", "Abrir", "Guardar", "Guardar como", "Salir"] # Valores del combobox
+combobx["values"] = ["Abrir", "Guardar", "Guardar como", "Salir"] # Valores del combobox
 combobx.current(0) # Valor por defecto del combobo
 combobx.configure(foreground='#E0E0E0')
 combobx.place(x=10, y=7, width=100, height=23)
@@ -50,9 +69,9 @@ combobx.place(x=10, y=7, width=100, height=23)
 combobx.bind("<<ComboboxSelected>>", ejecutar_funcion)
 
 # Creacion de los botones
-button = tk.Button(root, text="Analizador", bg="#333766", fg="white", borderwidth=0.5)
-button2 = tk.Button(root, text="Errores", bg= "#333766", fg="white", borderwidth=0.5)
-button3 = tk.Button(root, text="Reporte", bg="#333766", fg="white", borderwidth=0.5)
+button = tk.Button(root, text="Analizador", bg="#333766", fg="white", borderwidth=0.5, command=analizar)
+button2 = tk.Button(root, text="Errores", bg= "#333766", fg="white", borderwidth=0.5, command=errores)
+button3 = tk.Button(root, text="Reporte", bg="#333766", fg="white", borderwidth=0.5, command=reporte)
 
 # Posicion de los botones
 button.place(x=140, y=7, width=100, height=23)
