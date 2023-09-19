@@ -12,7 +12,7 @@ class objeto:
         self.path = None
         self.contenido = None
         self.listaErrores = None
-        self.pathSalida = "salida.json"
+        self.pathSalida = None
     
     def getPath(self):
         while True:
@@ -48,7 +48,7 @@ class objeto:
         for numero, linea in enumerate(lineas, start=1):
             for caracter in linea:
                 if caracter not in CARACTERES:
-                    print(f"Error sintactico en la linea {numero} y columna {linea.index(caracter) + 1} el caracter es {caracter}")
+                    #print(f"Error sintactico en la linea {numero} y columna {linea.index(caracter) + 1} el caracter es {caracter}")
                     lista.append({
                         "NO": contador,
                         "Descripcion": {
@@ -62,5 +62,8 @@ class objeto:
         self.listaErrores = {"Errores": lista}
 
     def imprimirErrores(self):
-        with open(self.pathSalida, "w") as salida:
-            json.dump(self.listaErrores, salida, indent=4)
+            nombre_archivo = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("Archivos JSON", "*.json")])
+            if nombre_archivo:
+                self.pathSalida = nombre_archivo
+                with open(self.pathSalida, "w") as salida:
+                    json.dump(self.listaErrores, salida, indent=4)
