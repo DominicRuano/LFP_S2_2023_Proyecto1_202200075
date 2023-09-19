@@ -21,13 +21,19 @@ def ejecutar_funcion(event):
     elif seleccion == "Guardar":
         if entry.get("1.0", "end-1c") and archivoCargado[0]:
             if obj.getPath:
-                obj.guardar(entry.get("1.0", "end-1c"))
+                try:
+                    obj.guardar(entry.get("1.0", "end-1c"))
+                except:
+                    messagebox.showinfo("Error al guardar", "Ocurrio un error inesperado.")
         else:
             messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargado un archivo, no se puede guardar.")
 
     elif seleccion == "Guardar como":
         if entry.get("1.0", "end-1c") and archivoCargado[0]:
-            obj.guardarComo(entry.get("1.0", "end-1c"))
+            try:
+                obj.guardarComo(entry.get("1.0", "end-1c"))
+            except:
+                messagebox.showinfo("Error al Guardar Como", "Ocurrio un error inesperado al guardar el archivo como.")
         else:
             messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargado un archivo, no se puede guardar.")
 
@@ -35,7 +41,13 @@ def ejecutar_funcion(event):
         root.destroy()
 
 def analizar():
-    print("Analizando")
+    if obj.path:
+        try:
+            obj.analizar()
+        except:
+            messagebox.showinfo("Error al analizar", "Ocurrio un error inesperado al analizar el archivo, intente abrirlo de nuevo.")
+    else:
+        messagebox.showinfo("Abrir un archivo", "Por favor cargue un archivo para Analizar.")
 
 def errores():
     if entry.get("1.0", "end-1c") and archivoCargado:

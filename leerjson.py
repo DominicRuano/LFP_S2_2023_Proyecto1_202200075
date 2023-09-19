@@ -7,10 +7,12 @@ CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ''""\",[]{}.12
 class objeto:
     def __init__(self):
         self.path = None
+        self.pathSalida = None
         self.contenido = None
         self.contenidoErrores = None
         self.listaErrores = None
-        self.pathSalida = None
+        self.listaAnalizada = [] # sintaxis [{"operacion": [valor1, valor2, valor n]}, {otro dic}] lista de diccionarios con listas
+        self.configuracion = None
 
     def getPath(self):
         try:
@@ -90,3 +92,41 @@ class objeto:
             messagebox.showinfo("Guardado correcto", f"El archivo llamado {nombre_archivo} se guardo correctamente")
         except:
             print("se produjo un error al guardar el archivo")
+
+    def analizar(self):
+        operaciones = ["suma","resta","multiplicacion","divicion","potencia","raiz","inverso","seno","coseno","tangente","mod"]
+        with open(self.path, "r") as archivo:
+            datos = json.load(archivo)
+        operaciones = datos["operaciones"]
+        self.listaAnalizada = self.obtener(operaciones)
+        cadena = "El archivo se ha analizado correctamente: "
+        for a in self.listaAnalizada:
+            cadena += f"\n{a}"
+        if self.listaAnalizada:
+            messagebox.showinfo("Analizar", f"{cadena}")
+
+    def obtener(self, operaciones):
+        listaFinal = []
+        llenar = False
+        lista = {}
+        llave = ""
+        numeros = []
+        for operacion in operaciones:
+            for valor in operacion:
+                if "operacion" == str(valor).lower():
+                    llave = operacion[valor]
+                    llenar = True
+                elif llenar:
+                    if isinstance(operacion[valor], list):
+                        print("here")
+                        numeros.append(self.obtener(operacion[valor]))
+                    else:
+                        numeros.append(operacion[valor])
+            if llave and numeros:
+                lista[llave] = numeros
+                listaFinal.append(lista)
+            lista = {}
+            llave = ""
+            numeros = []
+            llenar = False
+        return listaFinal
