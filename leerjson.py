@@ -3,6 +3,7 @@ from tkinter import messagebox
 import json
 
 CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ''""\",[]{}.1234567890 :"
+operacionesPermitidas = ["suma","resta","multiplicacion","division","potencia","raiz","inverso","seno","coseno","tangente","mod"]
 
 class objeto:
     def __init__(self):
@@ -12,6 +13,7 @@ class objeto:
         self.contenidoErrores = None
         self.listaErrores = None
         self.listaAnalizada = [] # sintaxis [{"operacion": [valor1, valor2, valor n]}, {otro dic}] lista de diccionarios con listas
+        self.listaAnalizadaRechazada = []
         self.configuracion = None
 
     def getPath(self):
@@ -94,14 +96,27 @@ class objeto:
             print("se produjo un error al guardar el archivo")
 
     def analizar(self):
-        operaciones = ["suma","resta","multiplicacion","divicion","potencia","raiz","inverso","seno","coseno","tangente","mod"]
         with open(self.path, "r") as archivo:
             datos = json.load(archivo)
         operaciones = datos["operaciones"]
         self.listaAnalizada = self.obtener(operaciones)
+        #for numero, a  in enumerate(self.listaAnalizada, start=0):
+        #    for b in a:
+        #        for operacion in operacionesPermitidas:
+        #            if b.lower() in operacionesPermitidas:
+        #                pass
+        #            else:
+        #                self.listaAnalizadaRechazada.append(a)
+        #                self.listaAnalizada[numero] = []
+        #                break
+        self.eliminar()
+        self.eliminar()
         cadena = "El archivo se ha analizado correctamente: "
         for a in self.listaAnalizada:
-            cadena += f"\n{a}"
+            cadena += f"\n      {a}"
+        cadena += "\n\nLos objetos rechazados fueron:"
+        for a in self.listaAnalizadaRechazada:
+            cadena += f"\n      {a}"
         if self.listaAnalizada:
             messagebox.showinfo("Analizar", f"{cadena}")
 
@@ -118,7 +133,6 @@ class objeto:
                     llenar = True
                 elif llenar:
                     if isinstance(operacion[valor], list):
-                        print("here")
                         numeros.append(self.obtener(operacion[valor]))
                     else:
                         numeros.append(operacion[valor])
@@ -130,3 +144,45 @@ class objeto:
             numeros = []
             llenar = False
         return listaFinal
+
+    def eliminar(self, valor = False):
+        if valor:
+            for a in self.listaAnalizada:
+                for b in a:
+                    if b.lower() in operacionesPermitidas:
+                        for c in a[b]:
+                            if isinstance(c, list):
+                                if self.eliminaChikito(c):
+                                    pass
+                                else:
+                                    self.listaAnalizadaRechazada.append(a)
+                                    self.listaAnalizada[self.listaAnalizada.index(a)] = []
+                        break
+                    else:
+                        self.listaAnalizadaRechazada.append(a)
+                        self.listaAnalizada[self.listaAnalizada.index(a)] = []
+                        break
+        else:
+            self.eliminar(valor=True)
+            for a in self.listaAnalizada:
+                if a == []:
+                    self.listaAnalizada.pop(self.listaAnalizada.index(a))
+                else:
+                    for objeto in a:
+                        if objeto == []:
+                            self.listaAnalizadaRechazada.append(a)
+                            self.listaAnalizada.pop(self.listaAnalizada.index(a))
+
+    def eliminaChikito(self, datos):
+        for a in datos:
+            for b in a:
+                if isinstance(b, str):
+                    if b.lower() in operacionesPermitidas:
+                        for c in a[b]:
+                            if isinstance(c, list):
+                                return self.eliminaChikito(c)
+                    else:
+                        return False
+                if isinstance(b, int) or isinstance(b, float):
+                    return True
+        return True
