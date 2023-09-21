@@ -62,7 +62,7 @@ def errores():
 
 def reporte():
     if obj.listaAnalizada and obj.listaAnalizadaRechazada and obj.configuracion:
-        obj.reporte()
+            obj.reporte()
     else:
         messagebox.showinfo("Error", "Aun no se ha analizado el archivo.")
 
