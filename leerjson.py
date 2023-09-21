@@ -196,7 +196,12 @@ class objeto():
 
     def reporte(self):
         contador = 0
-        graphviz = Graph()
+        lista = []
+        for a in self.configuracion:
+            lista.append(a)
+        print()
+        print()
+        graphviz = Graph(fondo=lista[1]["fondo"], fuente=lista[2]["fuente"], forma=lista[3]["forma"])
         for operacion in self.listaAnalizada:
             for valor in operacion:
                 if "suma" == str(valor).lower():

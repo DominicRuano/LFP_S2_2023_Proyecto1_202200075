@@ -1,7 +1,7 @@
 import graphviz
 
 class Graph():
-    def __init__(self, fondo="blue", fuente="white", forma="circle"):
+    def __init__(self, fondo, fuente, forma):
         self.dot = graphviz.Digraph('structs', filename='Reporte.png', node_attr={'shape': forma, 'style': 'filled', 'fillcolor': fondo, 'fontcolor': fuente, 'fontname': 'Helvetica'})
         #self.dot.attr(rankdir="LR") si el aux me da permiso de cambiar la direccion de los nodos en la calificaión, descomentar esta linea.
 
