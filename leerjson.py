@@ -1,11 +1,13 @@
 from tkinter import filedialog
 from tkinter import messagebox
 import json
+from ARITMETICA.mate import *
+from graph import Graph
 
 CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ''""\",[]{}.1234567890 :"
 operacionesPermitidas = ["suma","resta","multiplicacion","division","potencia","raiz","inverso","seno","coseno","tangente","mod"]
 
-class objeto:
+class objeto():
     def __init__(self):
         self.path = None
         self.pathSalida = None
@@ -14,7 +16,7 @@ class objeto:
         self.listaErrores = None
         self.listaAnalizada = [] # sintaxis [{"operacion": [valor1, valor2, valor n]}, {otro dic}] lista de diccionarios con listas
         self.listaAnalizadaRechazada = []
-        self.configuracion = None
+        self.configuracion = []
 
     def getPath(self):
         try:
@@ -100,23 +102,18 @@ class objeto:
             datos = json.load(archivo)
         operaciones = datos["operaciones"]
         self.listaAnalizada = self.obtener(operaciones)
-        #for numero, a  in enumerate(self.listaAnalizada, start=0):
-        #    for b in a:
-        #        for operacion in operacionesPermitidas:
-        #            if b.lower() in operacionesPermitidas:
-        #                pass
-        #            else:
-        #                self.listaAnalizadaRechazada.append(a)
-        #                self.listaAnalizada[numero] = []
-        #                break
         self.eliminar()
         self.eliminar()
+        self.configuracion = self.obtenerConfirg(datos["configuraciones"])
         cadena = "El archivo se ha analizado correctamente: "
         for a in self.listaAnalizada:
             cadena += f"\n      {a}"
         cadena += "\n\nLos objetos rechazados fueron:"
         for a in self.listaAnalizadaRechazada:
             cadena += f"\n      {a}"
+        cadena += "\n\nLas configuraciones son las siguiente: "
+        for a in self.configuracion:
+            cadena += f"\n{a}"
         if self.listaAnalizada:
             messagebox.showinfo("Analizar", f"{cadena}")
 
@@ -186,3 +183,112 @@ class objeto:
                 if isinstance(b, int) or isinstance(b, float):
                     return True
         return True
+
+    def obtenerConfirg(self, datos):
+        lista = []
+        configuraciones = {}
+        for configuracion in datos:
+            for objeto in configuracion:
+                configuraciones[objeto] = configuracion[objeto]
+                lista.append(configuraciones)
+                configuraciones = {}
+        return lista
+
+    def reporte(self):
+        contador = 0
+        graphviz = Graph()
+        for operacion in self.listaAnalizada:
+            for valor in operacion:
+                if "suma" == str(valor).lower():
+                    print("se dectecto una suma")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        if isinstance(operacion[valor][0], list):
+                            pass
+                    else:
+                        nombre = f"{valor}\n{suma(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "resta" == str(valor).lower():
+                    print("se dectecto una resta")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{resta(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "multiplicacion" == str(valor).lower():
+                    print("se dectecto una multiplicacion")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{multiplicacion(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "division" == str(valor).lower():
+                    print("se dectecto una division")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{division(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "potencia" == str(valor).lower():
+                    print("se dectecto una potencia")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{potencia(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "raiz" == str(valor).lower():
+                    print("se dectecto una raiz")
+                    if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{raiz(operacion[valor][0], operacion[valor][1])}"
+                        graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
+                        contador += 100
+                elif "inverso" == str(valor).lower():
+                    print("se dectecto una inverso")
+                    if isinstance(operacion[valor][0], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{inverso(operacion[valor][0])}"
+                        graphviz.add2Nodos([nombre, operacion[valor][0]], id=contador)
+                        contador += 100
+                elif "seno" == str(valor).lower():
+                    print("se dectecto una seno")
+                    if isinstance(operacion[valor][0], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{seno(operacion[valor][0])}"
+                        graphviz.add2Nodos([nombre, operacion[valor][0]], id=contador)
+                        contador += 100
+                elif "coseno" == str(valor).lower():
+                    print("se dectecto una coseno")
+                    if isinstance(operacion[valor][0], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{coseno(operacion[valor][0])}"
+                        graphviz.add2Nodos([nombre, operacion[valor][0]], id=contador)
+                        contador += 100
+                elif "tangente" == str(valor).lower():
+                    print("se dectecto una tangente")
+                    if isinstance(operacion[valor][0], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{tangente(operacion[valor][0])}"
+                        graphviz.add2Nodos([nombre, operacion[valor][0]], id=contador)
+                        contador += 100
+                elif "mod" == str(valor).lower():
+                    print("se dectecto una mod")
+                    if isinstance(operacion[valor][0], list):
+                        pass
+                    else:
+                        nombre = f"{valor}\n{modulo(operacion[valor][0])}"
+                        graphviz.add2Nodos([nombre, operacion[valor][0]], id=contador)
+                        contador += 100
+        graphviz.graficar()
+
+    def reporteChikito(self, datos, contador, graphviz):
+        pass
