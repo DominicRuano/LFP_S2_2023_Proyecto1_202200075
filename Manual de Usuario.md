@@ -1,5 +1,5 @@
 # LABORATORIO LENGUAJES FORMALES Y DE PROGRAMACION Sección B- 🖥️
-## Informe 1 📚
+## Manual de usuario 📚
 ### SEGUNDO SEMESTRE 2023 📅
 
 ```js
