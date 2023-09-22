@@ -14,10 +14,13 @@ archivoCargado = [False]
 def ejecutar_funcion(event):
     seleccion = combobx.get()
     if seleccion == "Abrir":
-        obj.getPath()
-        entry.delete(1.0, tk.END)
-        entry.insert(tk.END, obj.contenido)
-        archivoCargado[0] = True
+        try:
+            obj.getPath()
+            entry.delete(1.0, tk.END)
+            entry.insert(tk.END, obj.contenido)
+            archivoCargado[0] = True
+        except:
+            print("Error en boton abrir")
     elif seleccion == "Guardar":
         if entry.get("1.0", "end-1c") and archivoCargado[0]:
             if obj.getPath:
