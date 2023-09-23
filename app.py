@@ -64,7 +64,7 @@ def errores():
         messagebox.showinfo("Campo Vacio", "El espacio de Texto esta Vacio o no se ha cargo un archivo, no se puede generar archivo de errores.")
 
 def reporte():
-    if obj.listaAnalizada and obj.listaAnalizadaRechazada and obj.configuracion:
+    if obj.listaAnalizada and obj.configuracion:
             obj.reporte()
     else:
         messagebox.showinfo("Error", "Aun no se ha analizado el archivo.")
