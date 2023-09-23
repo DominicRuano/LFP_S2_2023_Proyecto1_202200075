@@ -207,7 +207,13 @@ class objeto():
                 if "suma" == str(valor).lower():
                     print("se dectecto una suma")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{suma(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{suma(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
@@ -224,7 +230,13 @@ class objeto():
                 elif "resta" == str(valor).lower():
                     print("se dectecto una resta")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{resta(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{resta(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
@@ -241,7 +253,13 @@ class objeto():
                 elif "multiplicacion" == str(valor).lower():
                     print("se dectecto una multiplicacion")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{multiplicacion(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{multiplicacion(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
@@ -258,7 +276,13 @@ class objeto():
                 elif "division" == str(valor).lower():
                     print("se dectecto una division")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{division(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{division(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
@@ -275,7 +299,13 @@ class objeto():
                 elif "potencia" == str(valor).lower():
                     print("se dectecto una potencia")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{potencia(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{potencia(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
@@ -292,18 +322,24 @@ class objeto():
                 elif "raiz" == str(valor).lower():
                     print("se dectecto una raiz")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
-                            nombre = f"{valor}\n{raiz(lista[1], operacion[valor][1])}"
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{potencia(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            nombre = f"{valor}\n{potencia(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
                             contador += 100
                         else:
                             lista = self.reporteChikito(operacion[valor][1], contador+2, graphviz)
-                            nombre = f"{valor}\n{raiz(operacion[valor][0], lista[1])}"
+                            nombre = f"{valor}\n{potencia(operacion[valor][0], lista[1])}"
                             graphviz.add3Nodos([nombre, operacion[valor][0], lista[0]], id=contador)
                             contador += 100
                     else:
-                        nombre = f"{valor}\n{raiz(operacion[valor][0], operacion[valor][1])}"
+                        nombre = f"{valor}\n{potencia(operacion[valor][0], operacion[valor][1])}"
                         graphviz.add3Nodos([nombre, operacion[valor][0], operacion[valor][1]], id=contador)
                         contador += 100
                 elif "inverso" == str(valor).lower():
@@ -353,7 +389,13 @@ class objeto():
                 elif "mod" == str(valor).lower():
                     print("se dectecto una mod")
                     if isinstance(operacion[valor][0], list) or isinstance(operacion[valor][1], list):
-                        if isinstance(operacion[valor][0], list):
+                        if isinstance(operacion[valor][0], list) and isinstance(operacion[valor][1], list):
+                            lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
+                            lista2 = self.reporteChikito(operacion[valor][1], contador+4, graphviz)
+                            nombre = f"{valor}\n{modulo(lista[1], lista2[1])}"
+                            graphviz.add3Nodos([nombre, lista[0], lista2[0]], id=contador)
+                            contador += 100
+                        elif isinstance(operacion[valor][0], list):
                             lista = self.reporteChikito(operacion[valor][0], contador+2, graphviz)
                             nombre = f"{valor}\n{modulo(lista[1], operacion[valor][1])}"
                             graphviz.add3Nodos([nombre, lista[0], operacion[valor][1]], id=contador)
